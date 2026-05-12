@@ -40,3 +40,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# API Keys
+src/main/resources/config/api.properties
