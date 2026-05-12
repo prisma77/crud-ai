@@ -1,0 +1,62 @@
+plugins {
+  id 'java'
+  id 'war'
+}
+
+group 'com.prisma77'
+version '1.0-SNAPSHOT'
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  junitVersion = '5.11.0'
+}
+
+tasks.withType(JavaCompile).configureEach {
+  options.encoding = 'UTF-8'
+}
+tasks.withType(Javadoc).configureEach {
+  options.encoding = 'UTF-8'
+}
+
+dependencies {
+  // 톰캣이 제공하므로 패키징하지 않도록 compileOnly
+  compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+  compileOnly 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.3'
+
+  // JSTL 라이브러리
+  implementation 'javax.servlet:jstl:1.2'
+  implementation 'javax.el:javax.el-api:3.0.0'
+  implementation 'org.glassfish:javax.el:3.0.0'
+
+  // MyBatis와 MySQL
+  implementation 'org.mybatis:mybatis:3.5.15'
+  implementation 'mysql:mysql-connector-java:8.0.31'
+
+  // 커넥션 풀
+  implementation 'com.zaxxer:HikariCP:5.0.1'
+
+  // 로깅
+  implementation 'org.slf4j:slf4j-simple:2.0.13'
+
+  // 유틸리티
+  implementation 'org.webjars:jquery:3.7.1'
+  compileOnly 'org.projectlombok:lombok:1.18.26'
+  annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+  // 테스트
+  testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+}
+
+war {
+  archiveFileName = 'crud.war'
+}
+
+test {
+  useJUnitPlatform()
+}
