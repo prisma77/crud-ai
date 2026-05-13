@@ -51,6 +51,15 @@ dependencies {
   // 테스트
   testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+
+  // 제미나이 API 호출을 위한 HTTP 클라이언트 (OkHttp)
+  implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+
+  // JSON 데이터 처리를 위한 라이브러리 (Gson)
+  implementation 'com.google.code.gson:gson:2.10.1'
+
+  // 로컬 환경 변수 관리 (보안을 위해 API 키를 파일에서 읽어올 때 사용)
+  implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 }
 
 war {

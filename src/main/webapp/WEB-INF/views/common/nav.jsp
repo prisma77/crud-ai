@@ -17,6 +17,9 @@
         <li class="nav-item">
           <a class="nav-link" href="${pageContext.request.contextPath}/courses">📚 강좌 관리</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-info" href="${pageContext.request.contextPath}/ai/chat">✨ AI 어시스턴트</a>
+        </li>
       </ul>
     </div>
   </div>
