@@ -64,7 +64,7 @@ public class AiChatController extends HttpServlet {
         }
 
         try {
-            // 3. AI 호출 (데이터 함께 전달)
+            // 3. AI 호출
             String aiResponse = aiService.askGemini(userMsg, dbContext.toString());
 
             request.setAttribute("userMsg", userMsg);
