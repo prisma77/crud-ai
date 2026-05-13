@@ -19,7 +19,6 @@
         </div>
       </div>
 
-      <!-- 강좌 기본 정보 -->
       <div class="card mb-4">
         <div class="card-header">
           <h5 class="mb-0">📋 강좌 정보</h5>
@@ -32,7 +31,7 @@
             </tr>
             <tr>
               <th>강의코드:</th>
-              <td><span class="badge badge-primary">${course.code}</span></td>
+              <td><span class="badge bg-light text-dark border fs-6">${course.code}</span></td>
             </tr>
             <tr>
               <th>과목명:</th>
@@ -44,7 +43,7 @@
             </tr>
             <tr>
               <th>학점:</th>
-              <td><span class="badge badge-success">${course.credit}학점</span></td>
+              <td><span class="badge bg-warning text-dark fs-6">${course.credit}학점</span></td>
             </tr>
             <tr>
               <th>등록일:</th>
@@ -54,7 +53,6 @@
         </div>
       </div>
 
-      <!-- 수강자 목록 -->
       <div class="card mb-4">
         <div class="card-header">
           <h5 class="mb-0">👥 수강자 목록 (총 ${enrollments.size()}명)</h5>
@@ -66,7 +64,7 @@
           <c:if test="${not empty enrollments}">
             <div class="table-responsive">
               <table class="table table-hover">
-                <thead class="thead-light">
+                <thead class="table-light">
                 <tr>
                   <th>학번</th>
                   <th>이름</th>
@@ -96,7 +94,6 @@
         </div>
       </div>
 
-      <!-- 삭제 버튼 -->
       <div class="mt-3">
         <form method="post" action="${pageContext.request.contextPath}/courses/${course.id}/delete"
               onsubmit="return confirm('정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.' );">

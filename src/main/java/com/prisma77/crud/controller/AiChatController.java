@@ -7,6 +7,7 @@ import com.prisma77.crud.service.AiService;
 import com.prisma77.crud.service.CourseService;
 import com.prisma77.crud.service.StudentService;
 import com.prisma77.crud.service.EnrollmentService;
+import com.prisma77.crud.util.PageInfo;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/ai/chat")
@@ -36,14 +38,22 @@ public class AiChatController extends HttpServlet {
 
         // 1. 실시간 데이터 추출
         List<Course> courses = courseService.getAllCourses();
-        List<Student> students = studentService.getStudentsWithPaging("", 1).getItems();
+
+        // ✨ 속도/로직 개선: 1페이지(10명)만 가져오던 것을 순회하여 100명 전체를 가져오도록 수정
+        List<Student> students = new ArrayList<>();
+        PageInfo<Student> firstPage = studentService.getStudentsWithPaging("", 1);
+        students.addAll(firstPage.getItems());
+        for (int i = 2; i <= firstPage.getTotalPages(); i++) {
+            students.addAll(studentService.getStudentsWithPaging("", i).getItems());
+        }
 
         // 2. 통합 데이터 컨텍스트 구성
         StringBuilder dbContext = new StringBuilder("=== 대학교 시스템 실시간 데이터 ===\n\n");
 
         dbContext.append("[강좌 정보]\n");
         for (Course c : courses) {
-            dbContext.append(String.format("- %s (교수: %s, %d학점)\n", c.getTitle(), c.getProfessor(), c.getCredit()));
+            dbContext.append(String.format("- [%s] %s (교수: %s, %d학점, 정원: %d명)\n",
+                    c.getCode(), c.getTitle(), c.getProfessor(), c.getCredit(), c.getCapacity()));
         }
 
         dbContext.append("\n[학생 및 수강신청 내역]\n");
@@ -59,8 +69,8 @@ public class AiChatController extends HttpServlet {
                     if (i < studentEnrollments.size() - 1) courseNames.append(", ");
                 }
             }
-            dbContext.append(String.format("- %s (학번: %s, 학과: %s) / 수강중: %s\n",
-                    s.getName(), s.getStudentNo(), s.getDept(), courseNames.toString()));
+            dbContext.append(String.format("- %s (학번: %s, 학과: %s, 이메일: %s) / 수강중: %s\n",
+                    s.getName(), s.getStudentNo(), s.getDept(), s.getEmail(), courseNames.toString()));
         }
 
         try {

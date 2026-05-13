@@ -22,6 +22,9 @@ public interface CourseRepository {
     @Select("SELECT * FROM course WHERE code = #{code}")
     Course findByCode(@Param("code") String code);
 
+    @Select("SELECT * FROM course WHERE id NOT IN (SELECT course_id FROM enrollment WHERE student_id = #{studentId})")
+    List<Course> findAvailableCoursesByStudentId(@Param("studentId") Long studentId);
+
     @Insert("INSERT INTO course(code, title, professor, credit, created_at) VALUES(#{code}, #{title}, #{professor}, #{credit}, NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Course course);

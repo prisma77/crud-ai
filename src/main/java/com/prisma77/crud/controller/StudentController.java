@@ -106,22 +106,7 @@ public class StudentController extends HttpServlet {
         // 현재 수강 중인 강좌 목록
         List<Enrollment> enrollments = enrollmentService.getEnrollmentsByStudentId(id);
 
-        // 수강 가능한 강좌 목록 (전체 강좌에서 수강 중인 강좌 제외)
-        List<Course> allCourses = courseService.getAllCourses();
-        List<Course> availableCourses = new ArrayList<>();
-
-        for (Course course : allCourses) {
-            boolean isEnrolled = false;
-            for (Enrollment enrollment : enrollments) {
-                if (enrollment.getCourseId().equals(course.getId())) {
-                    isEnrolled = true;
-                    break;
-                }
-            }
-            if (!isEnrolled) {
-                availableCourses.add(course);
-            }
-        }
+        List<Course> availableCourses = courseService.getAvailableCourses(id);
 
         request.setAttribute("student", student);
         request.setAttribute("enrollments", enrollments);

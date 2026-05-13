@@ -9,6 +9,7 @@ public class Course {
     private String professor;    // 담당교수
     private Integer credit;      // 학점
     private LocalDateTime createdAt;
+    private Integer capacity;
 
     public Course() {}
 
@@ -37,4 +38,7 @@ public class Course {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public Integer getCapacity() { return capacity; }
+    public void setCapacity(Integer capacity) { this.capacity = capacity; }
 }
